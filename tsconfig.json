@@ -41,5 +41,6 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
     "outDir": "./build",
+    "rootDir": "./src"
   }
 }
