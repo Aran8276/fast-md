@@ -4,19 +4,28 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "build": "tsc -p ./tsconfig.json",
+    "build": "tsx ./src/index.ts build",
     "start": "node ./build/index.js",
-    "dev": "ts-node ./src/index.ts"
+    "dev": "tsx watch --env-file=.env --include=\"./*\" ./src/index.ts dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "devDependencies": {
     "@types/node": "^24.9.2",
+    "@types/sanitize-html": "^2.16.0",
     "eslint": "^9.38.0",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.5",
+    "@types/imagemin": "^9.0.1",
+    "express": "^5.1.0",
+    "imagemin": "^9.0.1",
+    "sanitize-html": "^2.17.0"
   }
 }

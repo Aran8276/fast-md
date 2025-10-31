@@ -1,3 +1,195 @@
+Codebase Analysis for: .
+
+Directory Structure:
+└── .
+    ├── .env
+    ├── md
+    │   ├── index.md
+    │   └── test.md
+    ├── package.json
+    ├── public
+    │   ├── index.html
+    │   └── test.html
+    ├── src
+    │   └── index.ts
+    └── tsconfig.json
+
+Summary:
+Total files analyzed: 8
+Total directories analyzed: 3
+Estimated output size: 22.64 KB
+Actual analyzed size: 20.88 KB
+Total tokens: 5700
+Actual text content size: 20.38 KB
+
+File Contents:
+
+==================================================
+File: .\.env
+==================================================
+NODE_TLS_REJECT_UNAUTHORIZED=0
+
+==================================================
+File: .\md\index.md
+==================================================
+
+
+==================================================
+File: .\md\test.md
+==================================================
+# hello
+
+==================================================
+File: .\package.json
+==================================================
+{
+  "name": "md-localify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsx ./src/index.ts build",
+    "start": "node ./build/index.js",
+    "dev": "tsx watch --env-file=.env --include=\"./*\" ./src/index.ts dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^24.9.2",
+    "@types/sanitize-html": "^2.16.0",
+    "eslint": "^9.38.0",
+    "prettier": "^3.6.2",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.5",
+    "express": "^5.1.0",
+    "sanitize-html": "^2.17.0"
+  }
+}
+
+
+==================================================
+File: .\public\index.html
+==================================================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; line-height: 1.6; margin: 0; color: #333; }
+        .container { display: flex; min-height: 100vh; }
+        .sidebar { width: 220px; min-width: 220px; border-right: 1px solid #e0e0e0; padding: 2em; background-color: #f9f9f9; }
+        .sidebar h2 { font-size: 1.1em; margin-top: 0; margin-bottom: 1em; color: #555; text-transform: uppercase; letter-spacing: 0.5px; }
+        .sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .sidebar ul ul { padding-left: 1em; border-left: 1px solid #eee; margin-left: 0.2em; margin-top: 0.5em;}
+        .sidebar li { margin-bottom: 0.5em; }
+        .sidebar a { color: #333; text-decoration: none; display: block; padding: 0.2em 0; border-radius: 4px; transition: background-color 0.2s, color 0.2s; }
+        .sidebar a:hover { color: #007bff; }
+        .sidebar a.active { font-weight: bold; color: #007bff; }
+        main { flex-grow: 1; padding: 2em 3em; max-width: 800px; }
+        main img { max-width: 100%; height: auto; border-radius: 4px; }
+        h1, h2, h3 { line-height: 1.2; }
+        pre { background: #f4f4f4; padding: 1em; border-radius: 5px; overflow-x: auto; border: 1px solid #ddd; }
+        code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        p { margin-bottom: 1em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Navigation</h2>
+            <ul><li><a href="/index.html" class="active">Home</a></li><li><a href="/test.html" class="">Test</a></li></ul>
+        </aside>
+        <main>
+
+        </main>
+    </div>
+    
+    <script>
+        const evtSource = new EventSource("/__livereload__");
+        evtSource.onmessage = function(event) {
+            if (event.data === 'reload') {
+                console.log('Reloading page...');
+                window.location.reload();
+            }
+        };
+        evtSource.onerror = function() {
+            console.log("Live reload connection error. Retrying...");
+        };
+    </script>
+    
+</body>
+</html>
+
+==================================================
+File: .\public\test.html
+==================================================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; line-height: 1.6; margin: 0; color: #333; }
+        .container { display: flex; min-height: 100vh; }
+        .sidebar { width: 220px; min-width: 220px; border-right: 1px solid #e0e0e0; padding: 2em; background-color: #f9f9f9; }
+        .sidebar h2 { font-size: 1.1em; margin-top: 0; margin-bottom: 1em; color: #555; text-transform: uppercase; letter-spacing: 0.5px; }
+        .sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .sidebar ul ul { padding-left: 1em; border-left: 1px solid #eee; margin-left: 0.2em; margin-top: 0.5em;}
+        .sidebar li { margin-bottom: 0.5em; }
+        .sidebar a { color: #333; text-decoration: none; display: block; padding: 0.2em 0; border-radius: 4px; transition: background-color 0.2s, color 0.2s; }
+        .sidebar a:hover { color: #007bff; }
+        .sidebar a.active { font-weight: bold; color: #007bff; }
+        main { flex-grow: 1; padding: 2em 3em; max-width: 800px; }
+        main img { max-width: 100%; height: auto; border-radius: 4px; }
+        h1, h2, h3 { line-height: 1.2; }
+        pre { background: #f4f4f4; padding: 1em; border-radius: 5px; overflow-x: auto; border: 1px solid #ddd; }
+        code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        p { margin-bottom: 1em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Navigation</h2>
+            <ul><li><a href="/index.html" class="">Home</a></li><li><a href="/test.html" class="active">Test</a></li></ul>
+        </aside>
+        <main>
+<h1>hello</h1>
+        </main>
+    </div>
+    
+    <script>
+        const evtSource = new EventSource("/__livereload__");
+        evtSource.onmessage = function(event) {
+            if (event.data === 'reload') {
+                console.log('Reloading page...');
+                window.location.reload();
+            }
+        };
+        evtSource.onerror = function() {
+            console.log("Live reload connection error. Retrying...");
+        };
+    </script>
+    
+</body>
+</html>
+
+==================================================
+File: .\src\index.ts
+==================================================
 // src/index.ts
 import * as fs from "fs";
 import * as path from "path";
@@ -459,3 +651,58 @@ const main = () => {
 };
 
 main();
+
+==================================================
+File: .\tsconfig.json
+==================================================
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+    // File Layout
+    // "rootDir": "./src",
+    // "outDir": "./dist",
+
+    // Environment Settings
+    // See also https://aka.ms/tsconfig/module
+    "module": "nodenext",
+    "target": "esnext",
+    "types": ["node"],
+
+    // For nodejs:
+    // "lib": ["esnext"],
+    // "types": ["node"],
+    // and npm install -D @types/node
+
+    // Other Outputs
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    // Stricter Typechecking Options
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    // Style Options
+    // "noImplicitReturns": true,
+    // "noImplicitOverride": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noPropertyAccessFromIndexSignature": true,
+
+    // Recommended Options
+    "strict": true,
+    "jsx": "react-jsx",
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true,
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "ts-node": {
+    "esm": true
+  }
+}
+
