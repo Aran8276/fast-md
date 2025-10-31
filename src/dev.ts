@@ -7,6 +7,7 @@ import imagemin from "imagemin";
 import imageminGifsicle from "imagemin-gifsicle";
 import imageminMozjpeg from "imagemin-mozjpeg";
 import imageminPngquant from "imagemin-pngquant";
+import { marked } from "marked";
 
 const mdDir = path.join(process.cwd(), "md");
 const publicDir = path.join(process.cwd(), "public");
@@ -146,40 +147,42 @@ const processMarkdownImages = async (
   return processedMarkdown;
 };
 
+const renderer = new marked.Renderer();
+renderer.image = ({
+  href,
+  title,
+  text,
+}: {
+  href: string | null;
+  title: string | null;
+  text: string;
+}) => {
+  if (href === null) {
+    return text;
+  }
+  let out = `<img loading="lazy" decoding="async" src="${href}" alt="${text}"`;
+  if (title) {
+    out += ` title="${title}"`;
+  }
+  out += "/>";
+  return out;
+};
+
+marked.use({
+  renderer,
+  gfm: true,
+  breaks: true,
+});
+
 const parseMarkdown = (markdown: string): string => {
-  const blocks = sanitizeHtml(markdown)
-    .split("\n\n")
-    .filter((block) => block.trim() !== "");
-
-  const htmlBlocks = blocks.map((block) => {
-    if (block.startsWith("### ")) return `<h3>${block.substring(4)}</h3>`;
-    if (block.startsWith("## ")) return `<h2>${block.substring(3)}</h2>`;
-    if (block.startsWith("# ")) return `<h1>${block.substring(2)}</h1>`;
-
-    if (block.startsWith("```")) {
-      const lines = block.split("\n");
-      const code = lines.slice(1, lines.length - 1).join("\n");
-      const escapedCode = code
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-      return `<pre><code>${escapedCode}</code></pre>`;
-    }
-    return `<p>${block}</p>`;
+  const html = marked.parse(markdown) as string;
+  return sanitizeHtml(html, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+    allowedAttributes: {
+      ...sanitizeHtml.defaults.allowedAttributes,
+      img: ["src", "alt", "title", "loading", "decoding"],
+    },
   });
-
-  let html = htmlBlocks.join("\n");
-
-  html = html.replace(/!\[(.*?)\]\((.*?)\)/g, '<img loading="lazy" decoding="async" src="$2" alt="$1">');
-  html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>');
-  html = html.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-  html = html.replace(/\*(.*?)\*/g, "<em>$1</em>");
-  html = html.replace(
-    /<p>(.*?)<\/p>/gs,
-    (match, content) => `<p>${content.replace(/\n/g, "<br>")}</p>`
-  );
-
-  return html;
 };
 
 const createHtmlTemplate = (
@@ -474,3 +477,4 @@ const main = () => {
 };
 
 main();
+

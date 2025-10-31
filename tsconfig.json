@@ -41,10 +41,8 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-    "outDir": "./build",
+    "outDir": "./dist",
     "rootDir": "./src"
   },
-  "ts-node": {
-    "esm": true
-  }
+  "include": ["src/**/*.ts"],
 }
