@@ -3,6 +3,10 @@ import * as fs from "fs";
 import * as path from "path";
 import * as http from "http";
 import sanitizeHtml from "sanitize-html";
+import imagemin from "imagemin";
+import imageminGifsicle from "imagemin-gifsicle";
+import imageminMozjpeg from "imagemin-mozjpeg";
+import imageminPngquant from "imagemin-pngquant";
 
 const mdDir = path.join(process.cwd(), "md");
 const publicDir = path.join(process.cwd(), "public");
@@ -71,7 +75,9 @@ const generateSidebarHtml = (
   let html = "<ul>";
   for (const item of navTree) {
     const isActive = item.path === currentPagePath;
-    html += `<li><a href="${item.path}" class="${isActive ? "active" : ""}">${item.name}</a>`;
+    html += `<li><a href="${item.path}" class="${isActive ? "active" : ""}">${
+      item.name
+    }</a>`;
     if (item.children && item.children.length > 0) {
       html += generateSidebarHtml(item.children, currentPagePath);
     }
@@ -111,8 +117,17 @@ const processMarkdownImages = async (
             `Failed to fetch ${remoteUrl}: ${response.statusText}`
           );
         }
-        const buffer = await response.arrayBuffer();
-        fs.writeFileSync(localFilePath, Buffer.from(buffer));
+        const buffer = Buffer.from(await response.arrayBuffer());
+
+        const compressedBuffer = await imagemin.buffer(buffer, {
+          plugins: [
+            imageminMozjpeg({ quality: 80 }),
+            imageminPngquant({ quality: [0.6, 0.8] }),
+            imageminGifsicle({ optimizationLevel: 2 }),
+          ],
+        });
+
+        fs.writeFileSync(localFilePath, compressedBuffer);
         console.log(
           `  -> Saved to: ${path.relative(process.cwd(), localFilePath)}`
         );
@@ -155,7 +170,7 @@ const parseMarkdown = (markdown: string): string => {
 
   let html = htmlBlocks.join("\n");
 
-  html = html.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1">');
+  html = html.replace(/!\[(.*?)\]\((.*?)\)/g, '<img loading="lazy" decoding="async" src="$2" alt="$1">');
   html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>');
   html = html.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
   html = html.replace(/\*(.*?)\*/g, "<em>$1</em>");
